@@ -36,7 +36,8 @@ public class SecurityConfig {
     public  SecurityConfig() {this.rsaKey = Jwks.generateRsa();}
 
     @Bean
-    public AuthenticationManager authManager(UserDetailsService userDetailsService){
+    public AuthenticationManager authManager(
+            UserDetailsService userDetailsService){
         var authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(new BCryptPasswordEncoder());
@@ -46,9 +47,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)
             throws Exception {
-        return http.cors(Customizer.withDefaults())
+        return http
+                .cors(Customizer.withDefaults())
                 .csrf(x -> x.disable())
-                .authorizeHttpRequests(auth -> auth
+                .authorizeHttpRequests( auth -> auth
                         .requestMatchers(
                                 HttpMethod.POST, "/signup", "/signin").permitAll()
                         .requestMatchers(
@@ -64,7 +66,7 @@ public class SecurityConfig {
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
         JWKSet jwkSet = new JWKSet(rsaKey);
-        return (jwkSeletor, securityContext) -> jwkSeletor.select(jwkSet);
+        return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
     }
 
     @Bean

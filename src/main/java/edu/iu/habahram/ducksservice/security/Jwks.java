@@ -6,10 +6,6 @@ import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
-
-
-
-
 public class Jwks {
 
     private Jwks(){}
